@@ -148,7 +148,7 @@ def upload_file():
                     filename = app.config['UPLOAD_FOLDER']+'/'+filename
                     file.save(os.path.join(filename))
                     flash('Successfully Uploaded!', 'success')
-                    return redirect(request.url)
+                    return redirect(url_for('predict'))
                 else:
                     flash('File type unsupported', 'error')
                     return redirect(request.url)
