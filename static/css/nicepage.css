@@ -84,12 +84,14 @@ div#loading {
   padding: 20px;
   background-color: #f44336;
   color: white;
+  margin-bottom: 15px;
 }
 
 .success {
   padding: 20px;
   background-color: #36f446;
   color: white;
+  margin-bottom: 15px;
 }
 
 .closebtn {

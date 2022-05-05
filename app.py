@@ -2,7 +2,7 @@
 # Program : DGACaps API
 # Author : Roshith Eshanka Ruhunuhewa
 # Created : 23/03/2022
-# Updated : 01/05/2022
+# Updated : 05/05/2022
 ####################################################
 
 ####################################################
@@ -129,7 +129,7 @@ app.Chars = load_char_map()
 ####################################################
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/upload', methods = ['GET','POST'])
 def upload_file():
@@ -147,7 +147,6 @@ def upload_file():
                     filename = 'dgasToClassify'
                     filename = app.config['UPLOAD_FOLDER']+'/'+filename
                     file.save(os.path.join(filename))
-                    flash('Successfully Uploaded!', 'success')
                     return redirect(url_for('predict'))
                 else:
                     flash('File type unsupported', 'error')
@@ -169,18 +168,13 @@ def predict():
         X_pred = prepare_X([char_replace(e) for e in domains])
         prediction = app.Model.predict(X_pred)
         app.domains, app.dgaCount, app.benignCount = pred(domains,prediction)
-        resp = {
-            'response' : 'successful'
-        }
-        resp = jsonify(resp)
+        flash('Classifiaction Successful', 'success')
+        return redirect(url_for('view'))
     except Exception as e:
-        resp = {
-            'response' : str(e)
-        }
-        resp = jsonify(resp)
-    return resp
+        flash(str(e), 'error')
+        return redirect(url_for('home'))
 
-@app.route('/report', methods = ['GET','POST'])
+@app.route('/report')
 def view():
     resp = {
         'header1' : 'Domain',
@@ -190,19 +184,18 @@ def view():
         'dgaC' : app.dgaCount,
         'benignC' : app.benignCount
     }
-    resp = jsonify(resp)
-    return resp
+    return render_template('report.html', resp = resp)
 
-# @app.errorhandler(MethodNotAllowed)
-# def handle_exception(e):
-#     flash(str(e))
-#     resp = {
-#         "code": e.code,
-#         "name": e.name,
-#         "description": e.description,
-#     }
-#     resp = jsonify(resp)
-#     return resp
+@app.errorhandler(MethodNotAllowed)
+def handle_exception(e):
+    # flash(str(e))
+    # resp = {
+    #     "code": e.code,
+    #     "name": e.name,
+    #     "description": e.description,
+    # }
+    flash(str(e.description), 'error')
+    return redirect(url_for('home'))
 ####################################################
 
 if __name__== '__main__':
