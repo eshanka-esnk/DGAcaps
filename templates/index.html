@@ -17,9 +17,8 @@
         </div>
       {% endif %}
     {% endwith %}
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/nicepage.css')}}" media="screen">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/home.css')}}" media="screen">
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/report.css')}}" media="screen">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/common.css')}}" media="screen">
+    {% block css %}{% endblock %}
     <!--script class="u-script" type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-1.9.1.min.js')}}" defer=""></script-->
     <script class="u-script" type="text/javascript" src="{{ url_for('static', filename = 'js/nicepage.js')}}" defer=""></script>
     <script>
@@ -65,6 +64,7 @@
           <a href="{{url_for('home')}}" class="u-image u-logo u-image-1" data-image-width="350" data-image-height="109">
             <img src="{{ url_for('static', filename = 'images/cooltext410090907325230.png')}}" class="u-logo-image u-logo-image-1">
           </a>
+          <div class="u-border-3 u-border-palette-2-light-1 u-line u-line-horizontal u-line-1"></div>
         </div>
       </header>
       {% block section %}{% endblock %}

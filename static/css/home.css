@@ -39,6 +39,10 @@
   margin: 23px auto 40px;
 }
 
+.u-section-2 .u-btn-1 {
+  background-image: none;
+}
+
 @media (max-width: 767px) {
   .u-section-2 .u-form-1 {
     width: 540px;
@@ -54,13 +58,13 @@
 }
 
 .u-section-3 .u-text-1 {
-  width: 206px;
-  margin: 30px auto 0;
+  width: 304px;
+  margin: 28px auto 0;
 }
 
 .u-section-3 .u-list-1 {
   grid-template-rows: repeat(1, auto);
-  margin: 26px 0 60px;
+  margin: 28px 0 60px;
 }
 
 .u-section-3 .u-repeater-1 {

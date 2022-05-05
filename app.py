@@ -163,12 +163,11 @@ def predict():
         dp = pd.DataFrame(dp)
         df = dp["urls"]
         domains = df.values.tolist()
-        #domains_to_test = ["mskqpaiq.biz", "google.com", "appleborderlackentrancedump.com"]
         app.total = len(domains)
         X_pred = prepare_X([char_replace(e) for e in domains])
         prediction = app.Model.predict(X_pred)
         app.domains, app.dgaCount, app.benignCount = pred(domains,prediction)
-        flash('Classifiaction Successful', 'success')
+        flash('Classification Successful', 'success')
         return redirect(url_for('view'))
     except Exception as e:
         flash(str(e), 'error')
@@ -176,24 +175,18 @@ def predict():
 
 @app.route('/report')
 def view():
-    resp = {
-        'header1' : 'Domain',
-        'header2' : 'DGA/Benign',
-        'urls' : app.domains,
-        'totalurls' : app.total,
-        'dgaC' : app.dgaCount,
-        'benignC' : app.benignCount
-    }
-    return render_template('report.html', resp = resp)
-
+    try:
+        table_data = app.domains
+        total = app.total
+        malCount = app.dgaCount
+        benCount = app.benignCount
+        return render_template('report.html',table_data=table_data , total=total, malCount=malCount, benCount=benCount)
+    except AttributeError:
+        flash('No domains to report', 'error')
+        return redirect(url_for('home'))
+    
 @app.errorhandler(MethodNotAllowed)
 def handle_exception(e):
-    # flash(str(e))
-    # resp = {
-    #     "code": e.code,
-    #     "name": e.name,
-    #     "description": e.description,
-    # }
     flash(str(e.description), 'error')
     return redirect(url_for('home'))
 ####################################################

@@ -1,46 +1,73 @@
 {% extends "index.html" %}
-{% block title %}DGACaps: Home{% endblock %}
+{% block title %}DGACaps: Report{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/report.css')}}" media="screen">
+{% endblock %}
 {% block section %}
-  <section class="u-align-center u-clearfix u-section-1" id="sec-d9dd">
-    <p>{{resp}}</p>
+  <section class="u-align-center u-black u-clearfix u-section-1" id="sec-4ae8">
     <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+      <h1 class="u-text u-text-default u-text-1" spellcheck="false">Results</h1>
+    </div>
+  </section>
+  <section class="u-align-center u-clearfix u-section-2" id="sec-f349">
+    <div class="u-align-left u-clearfix u-sheet u-sheet-1">
+      <div class="u-expanded-width u-layout-grid u-list u-list-1">
+        <div class="u-repeater u-repeater-1">
+          <div class="u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-1">
+            <div class="u-container-layout u-similar-container u-container-layout-1"><span class="u-border-2 u-border-palette-1-base u-file-icon u-icon u-icon-circle u-text-palette-4-base u-icon-1"><img src="{{ url_for('static', filename = 'images/5.png')}}" alt=""></span>
+              <h3 class="u-align-center u-text u-text-default u-text-1">{{total}}</h3>
+              <p class="u-align-center u-text u-text-2" spellcheck="false">Total Number of domains</p>
+            </div>
+          </div>
+          <div class="u-align-center u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-2">
+            <div class="u-container-layout u-similar-container u-container-layout-2"><span class="u-border-2 u-border-palette-1-base u-file-icon u-icon u-icon-circle u-text-palette-4-base u-icon-2"><img src="{{ url_for('static', filename = 'images/6.png')}}" alt=""></span>
+              <h3 class="u-align-center u-text u-text-default u-text-3">{{malCount}}</h3>
+              <p class="u-align-center u-text u-text-4" spellcheck="false">Malicious domains found</p>
+            </div>
+          </div>
+          <div class="u-container-style u-list-item u-repeater-item u-shape-rectangle u-list-item-3">
+            <div class="u-container-layout u-similar-container u-container-layout-3"><span class="u-border-2 u-border-palette-1-base u-file-icon u-icon u-icon-circle u-text-palette-4-base u-icon-3"><img src="{{ url_for('static', filename = 'images/7.png')}}" alt=""></span>
+              <h3 class="u-align-center u-text u-text-default u-text-5">{{benCount}}</h3>
+              <p class="u-align-center u-text u-text-6" spellcheck="false">Benign domains found</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="u-align-center u-clearfix u-section-3" id="sec-d9dd">
+    <div class="u-clearfix u-sheet u-sheet-1">
       <div class="u-expanded-width u-table u-table-responsive u-table-1">
         <table class="u-table-entity u-table-entity-1">
           <colgroup>
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
-            <col width="25%">
+            <col width="33.3%">
+            <col width="33.3%">
+            <col width="33.400000000000006%">
           </colgroup>
           <thead class="u-palette-4-base u-table-header u-table-header-1">
             <tr style="height: 21px;">
-              <th class="u-border-1 u-border-palette-4-base u-table-cell">Column 1 </th>
-              <th class="u-border-1 u-border-palette-4-base u-table-cell">Column 2 </th>
-              <th class="u-border-1 u-border-palette-4-base u-table-cell">Column 3 </th>
-              <th class="u-border-1 u-border-palette-4-base u-table-cell">Column 4 </th>
+              <th class="u-border-1 u-border-palette-4-base u-table-cell">Domain </th>
+              <th class="u-border-1 u-border-palette-4-base u-table-cell">Result </th>
+              <th class="u-border-1 u-border-palette-4-base u-table-cell">Blacklist</th>
             </tr>
           </thead>
           <tbody class="u-table-body">
+            {% for row in table_data %}
             <tr style="height: 75px;">
-              <td class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-5">Row 1</td>
-              <td class="u-border-1 u-border-grey-30 u-table-cell">Description</td>
-              <td class="u-border-1 u-border-grey-30 u-table-cell">Description</td>
-              <td class="u-border-1 u-border-grey-30 u-table-cell">Description</td>
+              {% for cell in row %}
+              <td class="u-border-1 u-border-grey-30 u-table-cell">{{cell}}</td>
+              {% endfor %}
+              <td class="u-border-1 u-border-grey-30 u-table-cell"><a href="#" class="u-border-none u-btn u-button-style u-palette-4-base u-btn-1">Add</a></td>
             </tr>
-            <tr style="height: 76px;">
-              <td class="u-border-1 u-border-grey-30 u-first-column u-grey-5 u-table-cell u-table-cell-9">Row 2</td>
-              <td class="u-border-1 u-border-grey-30 u-table-cell">Description</td>
-              <td class="u-border-1 u-border-grey-30 u-table-cell">Description</td>
-              <td class="u-border-1 u-border-grey-30 u-table-cell">Description</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
   </section>
-  <section class="u-align-center u-clearfix u-section-2" id="sec-4c2d">
+  <section class="u-align-center u-clearfix u-section-4" id="sec-4c2d">
     <div class="u-align-center u-clearfix u-sheet u-sheet-1">
-      <h2 class="u-text u-text-default u-text-1">Download Report</h2>
+      <h2 class="u-text u-text-1">Download Report</h2>
       <p class="u-text u-text-2">Click here to download the report.</p>
       <a href="#" class="u-border-none u-btn u-button-style u-palette-4-base u-btn-1">Download</a>
     </div>

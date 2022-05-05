@@ -1,5 +1,8 @@
 {% extends "index.html" %}
 {% block title %}DGACaps: Home{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{{ url_for('static', filename = 'css/home.css')}}" media="screen">
+{% endblock %}
 {% block section %}
   <section class="u-align-left u-clearfix u-section-1" id="sec-9450">
     <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
@@ -15,7 +18,7 @@
           </span>
           <span class="u-text-body-alt-color">2. Press upload button<br>
           </span>3. Wait till technology <span class="u-custom-font u-font-lobster">magic <br>
-          </span>4. View result<br>5. Download report if needed :)
+          </span>4. View result<br>5. <a href="{{url_for('view')}}">Download</a> report if needed :)
         </blockquote>
       </div>
     </div>
