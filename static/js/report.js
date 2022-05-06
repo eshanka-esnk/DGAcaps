@@ -6,14 +6,14 @@ $(function(){
       $.getJSON('/getURL',{
           url: value
       });
-      $('.message').html("<div class='success'><span id='closebttn' class='closebtn'>&times;</span>success: Blacklisted domain.</div>");
+      $('.jsflash').html("<div class='success'><span id='closebttn' class='closebtn'>&times;</span>success: Blacklisted domain.</div>");
       return false;
     });
   });
 
 $(function(){
-    $('.message').bind('click',function(){
-        $('.message').empty()
+    $('.jsflash').bind('click',function(){
+        $('.jsflash').empty()
         return false
     });
 })
