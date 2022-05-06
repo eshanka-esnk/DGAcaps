@@ -1,3 +1,5 @@
 .vscode/settings.json
 pdf/Report.pdf
 uploads/dgasToClassify
+layers\__pycache__
+__pycache__
