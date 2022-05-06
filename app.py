@@ -126,7 +126,6 @@ def pred(domains, prediction):
 
 app.Model = load_model('capsDGA_model.h5',custom_objects={'CapsuleLayer': CapsuleLayer})
 app.Chars = load_char_map()
-app.PDF = FPDF()
 
 ####################################################
 # API Functions
@@ -192,12 +191,13 @@ def view():
 @app.route('/pdf')    
 def pdf():
     try:
+        app.PDF = FPDF()
         app.PDF.add_page()
         app.PDF.set_font("Times", size = 15)
         line_height = app.PDF.font_size * 2.5
         col_width = app.PDF.epw / 2
         app.PDF.cell(200, 10, txt = "Report", ln = 1, align = 'C')
-        app.PDF.cell(30, 10, txt = "Total: "+str(app.total), ln = 0, align = 'L')
+        app.PDF.cell(50, 10, txt = "Total Count: "+str(app.total), ln = 0, align = 'L')
         app.PDF.cell(50, 10, txt = "Malicious Count: "+str(app.dgaCount), ln = 0, align = 'L')
         app.PDF.cell(50, 10, txt = "Benign Count: "+str(app.benignCount), ln = 1, align = 'L')
         for row in app.domains:
