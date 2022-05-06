@@ -2,6 +2,7 @@
 {% block title %}DGACaps: Report{% endblock %}
 {% block css %}
   <link rel="stylesheet" href="{{ url_for('static', filename = 'css/report.css')}}" media="screen">
+  <script type="text/javascript" src="{{ url_for('static', filename = 'js/report.js')}}"></script>
 {% endblock %}
 {% block section %}
   <section class="u-align-center u-black u-clearfix u-section-1" id="sec-4ae8">
@@ -38,7 +39,7 @@
   <section class="u-align-center u-clearfix u-section-3" id="sec-d9dd">
     <div class="u-clearfix u-sheet u-sheet-1">
       <div class="u-expanded-width u-table u-table-responsive u-table-1">
-        <table class="u-table-entity u-table-entity-1">
+        <table id="datatable" class="u-table-entity u-table-entity-1">
           <colgroup>
             <col width="33.3%">
             <col width="33.3%">
@@ -55,9 +56,9 @@
             {% for row in table_data %}
             <tr style="height: 75px;">
               {% for cell in row %}
-              <td class="u-border-1 u-border-grey-30 u-table-cell">{{cell}}</td>
+              <td class="u-border-1 u-border-grey-30 u-table-cell datacell">{{cell}}</td>
               {% endfor %}
-              <td class="u-border-1 u-border-grey-30 u-table-cell"><a href="#" class="u-border-none u-btn u-button-style u-palette-4-base u-btn-1">Add</a></td>
+              <td class="u-border-1 u-border-grey-30 u-table-cell"><button type="button" class="u-border-none u-btn u-button-style u-palette-4-base u-btn-1" id="addButton">Add</button></td>
             </tr>
             {% endfor %}
           </tbody>

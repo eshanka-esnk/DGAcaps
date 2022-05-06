@@ -17,21 +17,11 @@
         {% endfor %}
       {% endif %}
     {% endwith %}
+    <div class="jsflash"></div>
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/common.css')}}" media="screen">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/loadingscreen.js')}}"></script>
     {% block css %}{% endblock %}
-    <!--script class="u-script" type="text/javascript" src="{{ url_for('static', filename = 'js/jquery-1.9.1.min.js')}}" defer=""></script-->
-    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename = 'js/nicepage.js')}}" defer=""></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-        document.getElementById("content").style.display = "initial";
-        document.getElementById("loading").style.display = "none";
-      });
-
-      document.addEventListener('submit', (event) => {
-        document.getElementById("loading").style.display = "flex";
-        document.getElementById("content").style.display = "none";
-      });
-    </script>
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <script type="application/ld+json">{
 		"name": "DGACaps",
@@ -80,7 +70,7 @@
             </a>
           </div>
           <div class="u-border-1 u-border-white u-expanded-width u-line u-line-horizontal u-opacity u-opacity-50 u-line-1"></div>
-          <p class="u-align-center u-text u-text-1"> DGACaps © copyrights 2022</p>
+          <p class="u-align-center u-text u-text-1"> DGACaps © Copyrights 2022</p>
         </div>
       </footer>
     </div>

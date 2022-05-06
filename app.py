@@ -194,6 +194,7 @@ def pdf():
         app.PDF = FPDF()
         app.PDF.add_page()
         app.PDF.set_font("Times", size = 15)
+        app.PDF.set_author('Roshith Eshanka Ruhunuhewa')
         line_height = app.PDF.font_size * 2.5
         col_width = app.PDF.epw / 2
         app.PDF.cell(200, 10, txt = "Report", ln = 1, align = 'C')
@@ -207,9 +208,20 @@ def pdf():
             app.PDF.ln(line_height)
         app.PDF.cell(200, 30, txt = "DGACaps © Copyright 2022", align = 'C')
         app.PDF.output(app.config['PDF_FOLDER']+'/Report.pdf')
-        flash('PDF exported', 'success')
         return send_file(app.config['PDF_FOLDER']+'/Report.pdf', as_attachment=True)
     except Exception as e:
+        flash(str(e), 'error')
+        return redirect(url_for('view'))
+
+@app.route('/getURL')
+def getURL():
+    try:
+        if request.method == 'GET':
+            url = request.args.get('url')
+            print(str(url))
+        return redirect(url_for('view'))
+    except Exception as e:
+        print(e)
         flash(str(e), 'error')
         return redirect(url_for('view'))
 
