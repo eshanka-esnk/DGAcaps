@@ -193,12 +193,19 @@ def view():
 def pdf():
     try:
         app.PDF.add_page()
-        app.PDF.set_font("Times NewRoman", size = 15)
+        app.PDF.set_font("Times", size = 15)
+        line_height = app.PDF.font_size * 2.5
+        col_width = app.PDF.epw / 2
         app.PDF.cell(200, 10, txt = "Report", ln = 1, align = 'C')
-        app.PDF.cell(200, 10, txt = "tot", ln = 2, align = 'L')
-        app.PDF.cell(200, 10, txt = "dga", ln = 0, align = 'C')
-        app.PDF.cell(200, 10, txt = "benign", ln = 0, align = 'R')
-        app.PDF.cell(200, 10, txt = "A Computer Science portal for geeks.", ln = 2, align = 'C')
+        app.PDF.cell(30, 10, txt = "Total: "+str(app.total), ln = 0, align = 'L')
+        app.PDF.cell(50, 10, txt = "Malicious Count: "+str(app.dgaCount), ln = 0, align = 'L')
+        app.PDF.cell(50, 10, txt = "Benign Count: "+str(app.benignCount), ln = 1, align = 'L')
+        for row in app.domains:
+            for column in row:
+                app.PDF.multi_cell(col_width, line_height, column, border=1,
+                    new_x="RIGHT", new_y="TOP", max_line_height=app.PDF.font_size)
+            app.PDF.ln(line_height)
+        app.PDF.cell(200, 30, txt = "DGACaps © Copyright 2022", align = 'C')
         app.PDF.output(app.config['PDF_FOLDER']+'/Report.pdf')
         flash('PDF exported', 'success')
         return send_file(app.config['PDF_FOLDER']+'/Report.pdf', as_attachment=True)
