@@ -13,8 +13,9 @@ import numpy as np
 import pandas as pd
 import pickle
 import secrets
-from flask import Flask, request, render_template, redirect, url_for, jsonify, flash
+from flask import Flask, request, render_template, redirect, url_for, send_file, flash
 from werkzeug.exceptions import RequestEntityTooLarge, MethodNotAllowed
+from fpdf import FPDF
 from keras.models import load_model
 from layers.capsuleLayer import CapsuleLayer
 ####################################################
@@ -23,6 +24,7 @@ from layers.capsuleLayer import CapsuleLayer
 # Global Variables
 ####################################################
 UPLOAD_FOLDER = 'uploads'
+PDF_FOLDER = 'pdf'
 ALLOWED_EXTENSIONS = {'csv'}
 sentences_length = 50
 len_letters = 40
@@ -30,6 +32,7 @@ len_letters = 40
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PDF_FOLDER'] = PDF_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 30 * 1024 * 1024
 app.config['SENTENCE_LENGTH'] = 50
 app.config['LEN_LETTER'] = 40
@@ -123,6 +126,7 @@ def pred(domains, prediction):
 
 app.Model = load_model('capsDGA_model.h5',custom_objects={'CapsuleLayer': CapsuleLayer})
 app.Chars = load_char_map()
+app.PDF = FPDF()
 
 ####################################################
 # API Functions
@@ -184,7 +188,24 @@ def view():
     except AttributeError:
         flash('No domains to report', 'error')
         return redirect(url_for('home'))
-    
+
+@app.route('/pdf')    
+def pdf():
+    try:
+        app.PDF.add_page()
+        app.PDF.set_font("Times NewRoman", size = 15)
+        app.PDF.cell(200, 10, txt = "Report", ln = 1, align = 'C')
+        app.PDF.cell(200, 10, txt = "tot", ln = 2, align = 'L')
+        app.PDF.cell(200, 10, txt = "dga", ln = 0, align = 'C')
+        app.PDF.cell(200, 10, txt = "benign", ln = 0, align = 'R')
+        app.PDF.cell(200, 10, txt = "A Computer Science portal for geeks.", ln = 2, align = 'C')
+        app.PDF.output(app.config['PDF_FOLDER']+'/Report.pdf')
+        flash('PDF exported', 'success')
+        return send_file(app.config['PDF_FOLDER']+'/Report.pdf', as_attachment=True)
+    except Exception as e:
+        flash(str(e), 'error')
+        return redirect(url_for('view'))
+
 @app.errorhandler(MethodNotAllowed)
 def handle_exception(e):
     flash(str(e.description), 'error')

@@ -13,8 +13,8 @@
         <div class="{{ category }}">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
         {{ category }}: {{ message }}.
-        {% endfor %}
         </div>
+        {% endfor %}
       {% endif %}
     {% endwith %}
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/common.css')}}" media="screen">
