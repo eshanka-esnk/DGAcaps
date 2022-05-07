@@ -9,11 +9,12 @@
 # Imports
 ####################################################
 import os
+from unittest import result
 import numpy as np
 import pandas as pd
 import pickle
 import secrets
-from flask import Flask, request, render_template, redirect, url_for, send_file, flash
+from flask import Flask, jsonify, request, render_template, redirect, url_for, send_file, flash
 from werkzeug.exceptions import RequestEntityTooLarge, MethodNotAllowed
 from fpdf import FPDF
 from keras.models import load_model
@@ -25,6 +26,7 @@ from layers.capsuleLayer import CapsuleLayer
 ####################################################
 UPLOAD_FOLDER = 'uploads'
 PDF_FOLDER = 'pdf'
+FILE_FOLDER = 'blacklist'
 ALLOWED_EXTENSIONS = {'csv'}
 sentences_length = 50
 len_letters = 40
@@ -33,6 +35,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['PDF_FOLDER'] = PDF_FOLDER
+app.config['FILE_FOLDER'] = FILE_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 30 * 1024 * 1024
 app.config['SENTENCE_LENGTH'] = 50
 app.config['LEN_LETTER'] = 40
@@ -121,6 +124,33 @@ def pred(domains, prediction):
             benignCount += 1
         index += 1
     return return_results, dgaCount, benignCount
+
+def searchfile(url):
+    ret = 0
+    with open(app.config['FILE_FOLDER']+'/list.txt', "a+") as file_object:
+        file_object.seek(0)
+        file = file_object.readlines()
+        file = [char_replace(e) for e in file]
+        for line in file:
+            if (line == url):
+                ret = 1
+                break
+            else:
+                ret = 0
+        file_object.close()
+        if ret==1:
+            return True
+        else:
+            return False
+
+def writefile(url):
+    with open(app.config['FILE_FOLDER']+'/list.txt', "a+") as file_object:
+        file_object.seek(0)
+        data = file_object.read(100)
+        if len(data)>0:
+          file_object.write("\n")
+        file_object.write(url)
+        file_object.close()
 
 ####################################################
 
@@ -216,10 +246,14 @@ def pdf():
 @app.route('/getURL')
 def getURL():
     try:
-        if request.method == 'GET':
-            url = request.args.get('url')
-            print(str(url))
-        return redirect(url_for('view'))
+        url = request.args.get('url')
+        url = str(url)
+        inFile = searchfile(url)
+        if (inFile):
+            return jsonify(result='error') 
+        else:
+            writefile(url)
+            return jsonify(result='success')
     except Exception as e:
         print(e)
         flash(str(e), 'error')

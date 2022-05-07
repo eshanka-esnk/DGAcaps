@@ -1,3 +1,6 @@
+var divclass
+var message
+
 $(function(){
     $('button#addButton').bind('click',function(){
       var $row = $(this).closest('tr');
@@ -5,8 +8,23 @@ $(function(){
       var value = $('table#datatable tr.selected td:first').html();
       $.getJSON('/getURL',{
           url: value
+      }, function(data){
+        if(data.result == 'error'){
+          divclass = 'error'
+          message = 'Domain already blacklisted'
+          $('.jsflash').html("<div class='"+ divclass +"'><span id='closebttn' class='closebtn'>&times;</span>"+ divclass +":"+ message +"</div>");
+          return false;
+        }
+        else if(data.result == 'success'){
+          divclass = 'success'
+          message = 'Blacklisted domain.'
+          $('.jsflash').html("<div class='"+ divclass +"'><span id='closebttn' class='closebtn'>&times;</span>"+ divclass +":"+ message +"</div>");
+          return false;
+        }
+        else{
+          return false;
+        }
       });
-      $('.jsflash').html("<div class='success'><span id='closebttn' class='closebtn'>&times;</span>success: Blacklisted domain.</div>");
       return false;
     });
   });
