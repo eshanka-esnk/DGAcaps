@@ -3,3 +3,4 @@ pdf/Report.pdf
 uploads/dgasToClassify
 layers\__pycache__
 __pycache__
+blacklist/list.txt
