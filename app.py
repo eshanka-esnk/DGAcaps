@@ -254,7 +254,6 @@ def getURL():
             writefile(url)
             return jsonify(result='success')
     except Exception as e:
-        print(e)
         flash(str(e), 'error')
         return redirect(url_for('view'))
 
