@@ -1,6 +1,6 @@
 .vscode/settings.json
-pdf/Report.pdf
-uploads/dgasToClassify
+Report.pdf
+dgasToClassify
 layers\__pycache__
 __pycache__
 blacklist/list.txt
